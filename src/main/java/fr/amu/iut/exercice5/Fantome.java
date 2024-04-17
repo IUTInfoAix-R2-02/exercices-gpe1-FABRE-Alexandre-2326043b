@@ -6,6 +6,8 @@ import javafx.scene.shape.Rectangle;
 
 public class Fantome extends Personnage {
 
+
+
     private Rectangle basCorps;
 
 
@@ -17,6 +19,7 @@ public class Fantome extends Personnage {
 
 
     public Fantome() {
+
         super("droite", Color.BLUE, Color.BLUE);
         basCorps = new Rectangle(0, 10, 20, 10);
         basCorps.setFill(Color.BLUE);
@@ -29,7 +32,6 @@ public class Fantome extends Personnage {
         //regarde vers la droite
         retineDroite = new Circle(oeilDroit.getCenterX() + 1, 6, 1, Color.BLACK);
 
-
         super.getChildren().add(basCorps);
         super.getChildren().add(oeilGauche);
         super.getChildren().add(retineGauche);
@@ -39,23 +41,38 @@ public class Fantome extends Personnage {
 
     @Override
     public void deplacerAGauche() {
-
-
+        super.deplacerAGauche();
+        retineGauche.setCenterX(oeilGauche.getCenterX() - 1);
+        retineDroite.setCenterX(oeilDroit.getCenterX() - 1);
+        retineGauche.setCenterY(oeilGauche.getCenterY());
+        retineDroite.setCenterY(oeilDroit.getCenterY());
     }
 
     @Override
     public void deplacerADroite(double largeurJeu) {
-
+        super.deplacerADroite(largeurJeu);
+        retineGauche.setCenterX(oeilGauche.getCenterX() + 1);
+        retineDroite.setCenterX(oeilDroit.getCenterX() + 1);
+        retineGauche.setCenterY(oeilGauche.getCenterY());
+        retineDroite.setCenterY(oeilDroit.getCenterY());
     }
 
     @Override
     public void deplacerEnBas(double hauteurJeu) {
-
+        super.deplacerEnBas(hauteurJeu);
+        retineGauche.setCenterX(oeilGauche.getCenterX());
+        retineDroite.setCenterX(oeilDroit.getCenterX());
+        retineGauche.setCenterY(oeilGauche.getCenterY() + 1);
+        retineDroite.setCenterY(oeilDroit.getCenterY() + 1);
     }
 
     @Override
     public void deplacerEnHaut() {
-
+        super.deplacerEnHaut();
+        retineGauche.setCenterX(oeilGauche.getCenterX());
+        retineDroite.setCenterX(oeilDroit.getCenterX());
+        retineGauche.setCenterY(oeilGauche.getCenterY() - 1);
+        retineDroite.setCenterY(oeilDroit.getCenterY() - 1);
     }
 
 

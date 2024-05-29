@@ -31,6 +31,12 @@ public class LoginControl extends GridPane {
 
     private void createBindings() {
         pwd.setDisable(userId.getText().length()<6);
+        cancelBtn.setDisable(userId.getText().length()==0 && pwd.getText().length()==0);
+        Boolean ok = userId.getText().length()<6;
+        for (char c : pwd.getText().toCharArray()) {
+            ok = ok && Character.isUpperCase(c) && Character.isDigit(c);
+        }
+        okBtn.setDisable(ok);
     }
 
     @FXML

@@ -1,19 +1,36 @@
-package fr.amu.iut.exercice5;
+package fr.amu.iut.exercice15;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 
 public class LoginControl extends GridPane {
     @FXML
-    private TextField userId;
-
+    private GridPane gridPane;
+    @FXML
+    private Text text;
+    @FXML
+    private Label label;
     @FXML
     private PasswordField pwd;
+    @FXML
+    private Label label2;
+    @FXML
+    private TextField userId;
+    @FXML
+    private Button okBtn;
+    @FXML
+    private Button cancelBtn;
+    @FXML
+    private HBox hBox;
 
     private void createBindings() {
-        // MÉTHODE À COMPLÉTER
+        pwd.setDisable(userId.getText().length()<6);
     }
 
     @FXML

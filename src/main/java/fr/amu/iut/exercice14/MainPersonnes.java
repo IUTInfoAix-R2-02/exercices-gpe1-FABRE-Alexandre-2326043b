@@ -1,15 +1,18 @@
-package fr.amu.iut.exercice4;
+package fr.amu.iut.exercice14;
 
+import javafx.beans.Observable;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 @SuppressWarnings("Duplicates")
 public class MainPersonnes {
 
-    private static SimpleListProperty<Personne> lesPersonnes;
+    private static ObservableList<Personne> lesPersonnes;
     private static IntegerProperty ageMoyen;
     private static IntegerProperty nbParisiens;
 
@@ -18,11 +21,46 @@ public class MainPersonnes {
 
     public static void main(String[] args) {
 
-        lesPersonnes = new SimpleListProperty<>(FXCollections.observableArrayList());
+        lesPersonnes = FXCollections.observableArrayList(personne -> new Observable[]{personne.ageProperty(),personne.villeDeNaissanceProperty()});
         ageMoyen = new SimpleIntegerProperty(0);
+        calculAgeMoyen = new IntegerBinding() {
+            {
+                this.bind(lesPersonnes);
+            }
+            @Override
+            protected int computeValue() {
+                int moy = 0;
+                for(Personne p : lesPersonnes){
+                    moy += p.getAge();
+                }
+                if(lesPersonnes.size()!=0) {
+                    moy /= lesPersonnes.size();
+                }
+                return moy;
+            }
+        };
+        ageMoyen.bind(calculAgeMoyen);
+        nbParisiens = new SimpleIntegerProperty(0);
+
+        calculnbParisiens = new IntegerBinding() {
+            {
+                this.bind(lesPersonnes);
+            }
+            @Override
+            protected int computeValue() {
+                int nb = 0;
+                for(Personne p : lesPersonnes){
+                    if (p.getVilleDeNaissance()=="Paris"){
+                        ++nb;
+                    }
+                }
+                return nb;
+            }
+        };
+        nbParisiens.bind(calculnbParisiens);
 
         question1();
-//        question2();
+        question2();
     }
 
     public static void question1() {
@@ -47,7 +85,7 @@ public class MainPersonnes {
         lesPersonnes.get(0).setVilleDeNaissance("Marseille");
         System.out.println("Il y a " + nbParisiens.getValue() + " parisiens");
         lesPersonnes.get(1).setVilleDeNaissance("Montpellier");
-        System.out.println("Il y a " + nbParisiens.getValue() + " parisien");
+        System.out.println("Il y a " + nbParisiens.getValue() + " parisiens");
         for (Personne p : lesPersonnes)
             p.setVilleDeNaissance("Paris");
         System.out.println("Il y a " + nbParisiens.getValue() + " parisiens");

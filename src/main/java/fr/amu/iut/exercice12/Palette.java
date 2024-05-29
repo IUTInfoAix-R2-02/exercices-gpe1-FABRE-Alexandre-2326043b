@@ -1,6 +1,9 @@
-package fr.amu.iut.exercice2;
+package fr.amu.iut.exercice12;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -33,6 +36,7 @@ public class Palette extends Application {
     private Label texteDuBas;
 
     private EventHandler<ActionEvent> gestionnaireEvenement;
+    private ChangeListener<Number> nbClicsListener;
 
     @Override
     public void start(Stage primaryStage) {
@@ -60,11 +64,23 @@ public class Palette extends Application {
 
         gestionnaireEvenement = (event) -> {
             sourceOfEvent = (CustomButton) event.getSource();
+            sourceOfEvent.setNbClics(sourceOfEvent.getNbClics()+1);
+        };
+
+        nbClicsListener = (observableValue, number, t1) -> {
+            texteDuHaut.setText(sourceOfEvent.getText() + " choisi " + sourceOfEvent.getNbClics() + " fois");
+            panneau.setStyle("-fx-background-color:" + sourceOfEvent.getCouleur());
+            texteDuBas.setText("Le " + sourceOfEvent.getText() + " est une jolie couleur !");
+            texteDuBas.setStyle("-fx-text-fill:" + sourceOfEvent.getCouleur());
         };
 
         vert.setOnAction(gestionnaireEvenement);
         rouge.setOnAction(gestionnaireEvenement);
         bleu.setOnAction(gestionnaireEvenement);
+
+        vert.nbClicsProperty().addListener(nbClicsListener);
+        rouge.nbClicsProperty().addListener(nbClicsListener);
+        bleu.nbClicsProperty().addListener(nbClicsListener);
 
         boutons.getChildren().addAll(vert, rouge, bleu);
 

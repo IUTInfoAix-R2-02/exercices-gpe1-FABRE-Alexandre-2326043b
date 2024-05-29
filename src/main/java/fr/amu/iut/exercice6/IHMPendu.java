@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class IHMPendu extends Application {
 
+    char lettre;
     GridPane clavier;
     Label labelNbVies;
     Label labelMotCache;
@@ -22,7 +23,6 @@ public class IHMPendu extends Application {
     String mot;
     String motCache;
     int nbVies = 7;
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -35,32 +35,59 @@ public class IHMPendu extends Application {
 
         VBox root = new VBox();
         clavier = new GridPane();
-        clavier.add(new Button("A"),2,0);
-        clavier.add(new Button("Z"),9,2);
-        clavier.add(new Button("E"),3,0);
-        clavier.add(new Button("R"),3,2);
-        clavier.add(new Button("T"),5,2);
-        clavier.add(new Button("Y"),7,0);
-        clavier.add(new Button("U"),6,0);
-        clavier.add(new Button("I"),4,0);
-        clavier.add(new Button("O"),5,0);
-        clavier.add(new Button("P"),1,2);
-        clavier.add(new Button("Q"),2,2);
-        clavier.add(new Button("S"),4,2);
-        clavier.add(new Button("D"),2,1);
-        clavier.add(new Button("F"),3,1);
-        clavier.add(new Button("G"),4,1);
-        clavier.add(new Button("H"),5,1);
-        clavier.add(new Button("J"),6,1);
-        clavier.add(new Button("K"),7,1);
-        clavier.add(new Button("L"),8,1);
-        clavier.add(new Button("M"),9,1);
-        clavier.add(new Button("W"),7,2);
-        clavier.add(new Button("X"),8,2);
-        clavier.add(new Button("C"),1,1);
-        clavier.add(new Button("V"),6,2);
-        clavier.add(new Button("B"),0,1);
-        clavier.add(new Button("N"),0,2);
+        Button boutonA = new Button("A");
+        Button boutonZ = new Button("Z");
+        Button boutonE = new Button("E");
+        Button boutonR = new Button("R");
+        Button boutonT = new Button("T");
+        Button boutonY = new Button("Y");
+        Button boutonU = new Button("U");
+        Button boutonI = new Button("I");
+        Button boutonO = new Button("O");
+        Button boutonP = new Button("P");
+        Button boutonQ = new Button("Q");
+        Button boutonS = new Button("S");
+        Button boutonD = new Button("D");
+        Button boutonF = new Button("F");
+        Button boutonG = new Button("G");
+        Button boutonH = new Button("H");
+        Button boutonJ = new Button("J");
+        Button boutonK = new Button("K");
+        Button boutonL = new Button("L");
+        Button boutonM = new Button("M");
+        Button boutonW = new Button("W");
+        Button boutonX = new Button("X");
+        Button boutonC = new Button("C");
+        Button boutonV = new Button("V");
+        Button boutonB = new Button("B");
+        Button boutonN = new Button("N");
+
+        clavier.add(boutonA, 2, 0);
+        clavier.add(boutonZ, 9, 2);
+        clavier.add(boutonE, 3, 0);
+        clavier.add(boutonR, 3, 2);
+        clavier.add(boutonT, 5, 2);
+        clavier.add(boutonY, 7, 0);
+        clavier.add(boutonU, 6, 0);
+        clavier.add(boutonI, 4, 0);
+        clavier.add(boutonO, 5, 0);
+        clavier.add(boutonP, 1, 2);
+        clavier.add(boutonQ, 2, 2);
+        clavier.add(boutonS, 4, 2);
+        clavier.add(boutonD, 2, 1);
+        clavier.add(boutonF, 3, 1);
+        clavier.add(boutonG, 4, 1);
+        clavier.add(boutonH, 5, 1);
+        clavier.add(boutonJ, 6, 1);
+        clavier.add(boutonK, 7, 1);
+        clavier.add(boutonL, 8, 1);
+        clavier.add(boutonM, 9, 1);
+        clavier.add(boutonW, 7, 2);
+        clavier.add(boutonX, 8, 2);
+        clavier.add(boutonC, 1, 1);
+        clavier.add(boutonV, 6, 2);
+        clavier.add(boutonB, 0, 1);
+        clavier.add(boutonN, 0, 2);
         labelNbVies = new Label("Nombre de vies : " + nbVies);
         labelMotCache = new Label(motCache);
         clavier.setAlignment(Pos.CENTER);
@@ -78,19 +105,19 @@ public class IHMPendu extends Application {
         primaryStage.show();
     }
 
-//    private void handleSubmission(ActionEvent event) {
-//        ArrayList<Integer> positions = dico.getPositions(lettre.getText().charAt(0),mot);
-//        if (positions.size()==0){
-//            nbVies -= 1;
-//            labelNbVies.setText("Nombre de vies : " + nbVies);
-//
-//        }else{
-//            for (Integer i : positions){
-//                motCache = motCache.substring(0,i) + lettre.getText().charAt(0) + motCache.substring(i+1);
-//            }
-//            labelMotCache.setText(motCache);
-//        }
-//    }
+    private void handleSubmission(ActionEvent event) {
+        ArrayList<Integer> positions = dico.getPositions(lettre,mot);
+        if (positions.size()==0){
+            nbVies -= 1;
+            labelNbVies.setText("Nombre de vies : " + nbVies);
+
+        }else{
+            for (Integer i : positions){
+                motCache = motCache.substring(0,i) + lettre + motCache.substring(i+1);
+            }
+            labelMotCache.setText(motCache);
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);

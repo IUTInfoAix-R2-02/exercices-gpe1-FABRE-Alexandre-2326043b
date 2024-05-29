@@ -1,11 +1,14 @@
-package fr.amu.iut.exercice1;
+package fr.amu.iut.exercice11;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -21,6 +24,7 @@ public class Palette extends Application {
     private int nbRouge = 0;
     private int nbBleu = 0;
 
+    private IntegerProperty nbFois;
     private Label texteDuHaut;
 
     private Button vert;
@@ -32,6 +36,14 @@ public class Palette extends Application {
     private HBox boutons;
 
     private Label texteDuBas;
+    private StringProperty nomDuBouton;
+    private StringProperty couleurPanneau;
+
+    public Palette() {
+        this.nbFois = new SimpleIntegerProperty(0);
+        this.nomDuBouton = new SimpleStringProperty("");
+        this.couleurPanneau = new SimpleStringProperty("#000000");
+    }
 
 
     @Override
@@ -57,7 +69,28 @@ public class Palette extends Application {
         rouge = new Button("Rouge");
         bleu = new Button("Bleu");
 
-        /* VOTRE CODE ICI */
+        createBindings();
+
+        vert.addEventHandler(MouseEvent.MOUSE_CLICKED, actionEvent -> {
+            ++nbVert;
+            nbFois.setValue(nbVert);
+            couleurPanneau.setValue("green");
+            nomDuBouton.setValue(vert.getText());
+        });
+
+        rouge.addEventHandler(MouseEvent.MOUSE_CLICKED, actionEvent -> {
+            ++nbRouge;
+            nbFois.setValue(nbRouge);
+            couleurPanneau.setValue("red");
+            nomDuBouton.setValue(rouge.getText());
+        });
+
+        bleu.addEventHandler(MouseEvent.MOUSE_CLICKED, actionEvent -> {
+            ++nbBleu;
+            nbFois.setValue(nbBleu);
+            couleurPanneau.setValue("blue");
+            nomDuBouton.setValue(bleu.getText());
+        });
 
         boutons.getChildren().addAll(vert, rouge, bleu);
 
@@ -69,6 +102,15 @@ public class Palette extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void createBindings(){
+        BooleanProperty pasEncoreDeClic = new SimpleBooleanProperty(false);
+        pasEncoreDeClic.bind(Bindings.equal(nbFois,0));
+        texteDuHaut.textProperty().bind(Bindings.when(pasEncoreDeClic).then("Cliquez sur un bouton").otherwise(Bindings.concat(nomDuBouton, " choisi ", nbFois.asString(), " fois")));
+        panneau.styleProperty().bind(Bindings.concat("-fx-background-color:" ,couleurPanneau));
+        texteDuBas.textProperty().bind(Bindings.when(pasEncoreDeClic).then("").otherwise(Bindings.concat("Le ",nomDuBouton, " est une jolie couleur !")));
+        texteDuBas.styleProperty().bind(Bindings.concat("-fx-text-fill:",couleurPanneau));
     }
 }
 

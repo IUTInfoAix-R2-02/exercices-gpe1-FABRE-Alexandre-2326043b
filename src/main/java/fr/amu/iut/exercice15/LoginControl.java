@@ -1,5 +1,7 @@
 package fr.amu.iut.exercice15;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,13 +32,15 @@ public class LoginControl extends GridPane {
     private HBox hBox;
 
     private void createBindings() {
-        pwd.setDisable(userId.getText().length()<6);
-        cancelBtn.setDisable(userId.getText().length()==0 && pwd.getText().length()==0);
-        Boolean ok = userId.getText().length()<6;
+        BooleanProperty userIdLenght= new SimpleBooleanProperty(userId.getText().length()<6);
+        pwd.editableProperty().bind(userIdLenght);
+        BooleanProperty cancel = new SimpleBooleanProperty(userId.getText().length()==0 && pwd.getText().length()==0);
+        cancelBtn.disableProperty().bind(cancel);
+        BooleanProperty ok = new SimpleBooleanProperty(userId.getText().length()<8);
         for (char c : pwd.getText().toCharArray()) {
-            ok = ok && Character.isUpperCase(c) && Character.isDigit(c);
+            ok.setValue(ok.getValue() && Character.isUpperCase(c) && Character.isDigit(c));
         }
-        okBtn.setDisable(ok);
+        okBtn.disableProperty().bind(ok);
     }
 
     @FXML
